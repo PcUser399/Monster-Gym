@@ -682,6 +682,8 @@ const selectCoach = (index) => {
 };
 
 const translatePage = (lang) => {
+  document.documentElement.setAttribute("lang", lang);
+
   const elements = document.querySelectorAll("[data-i18n]");
   elements.forEach(el => {
     const key = el.getAttribute("data-i18n");
@@ -697,6 +699,16 @@ const translatePage = (lang) => {
       el.setAttribute("placeholder", TRANSLATIONS[lang][key]);
     }
   });
+
+  const programsLink = document.querySelector('.site-header .nav-links a[href="#programs"]');
+  if (programsLink && TRANSLATIONS[lang]?.["nav.programs"]) {
+    programsLink.innerHTML = `${TRANSLATIONS[lang]["nav.programs"]} <span aria-hidden="true">&darr;</span>`;
+  }
+
+  const headerCta = document.querySelector(".site-header .header-cta");
+  if (headerCta && TRANSLATIONS[lang]?.["nav.book"]) {
+    headerCta.innerHTML = `${TRANSLATIONS[lang]["nav.book"]} <span aria-hidden="true">&rarr;</span>`;
+  }
 
   // Update active state in landing page language switchers
   const langBtns = document.querySelectorAll(".lang-switcher .lang-btn");
