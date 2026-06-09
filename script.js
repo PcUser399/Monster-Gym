@@ -1598,32 +1598,37 @@ let isGeneratingResponse = false;
 let typingIndicatorEl = null;
 
 const formatMarkdown = (text) => {
+  // Escape HTML tags to prevent XSS
   let escaped = text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  escaped = escaped.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  const inlineFormat = (str) => {
+    return str
+      .replace(/\*\*([\s\S]*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*([\s\S]*?)\*/g, "<em>$1</em>");
+  };
 
   const blocks = escaped.split(/\n\n+/);
   const formattedBlocks = blocks.map(block => {
     if (block.trim().startsWith("- ") || block.trim().startsWith("* ")) {
       const items = block.split(/\n/).map(line => {
         const content = line.trim().replace(/^[-*]\s+/, "");
-        return content ? `<li>${content}</li>` : "";
+        return content ? `<li>${inlineFormat(content)}</li>` : "";
       }).filter(Boolean).join("");
       return `<ul>${items}</ul>`;
     }
     if (/^\d+\.\s+/.test(block.trim())) {
       const items = block.split(/\n/).map(line => {
         const content = line.trim().replace(/^\d+\.\s+/, "");
-        return content ? `<li>${content}</li>` : "";
+        return content ? `<li>${inlineFormat(content)}</li>` : "";
       }).filter(Boolean).join("");
       return `<ol>${items}</ol>`;
     }
     
     const lines = block.split(/\n/).join("<br>");
-    return `<p>${lines}</p>`;
+    return `<p>${inlineFormat(lines)}</p>`;
   });
 
   return formattedBlocks.join("");
