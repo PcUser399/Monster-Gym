@@ -19,65 +19,61 @@
   <body>
     <div id="home-view">
       <header class="site-header">
-        <a class="brand" href="#top" aria-label="Monster Gym home">
-          <span class="brand-logo-wrap">
-            <img class="brand-logo" src="assets/monster-gym-logo.webp" alt="Monster Gym logo" />
-          </span>
-          <span>
-            <strong>Monster Gym</strong>
-            <small>Martial Arts</small>
-          </span>
-        </a>
+      <a class="brand" href="#top" aria-label="Monster Gym home">
+        <span class="brand-logo-wrap">
+          <img class="brand-logo" src="assets/monster-gym-logo.webp" alt="Monster Gym logo">
+        </span>
+        <span>
+          <strong>Monster Gym</strong>
+          <small>Martial Arts</small>
+        </span>
+      </a>
 
-        <nav class="nav-links" aria-label="Primary navigation">
-          <a href="#programs" data-i18n="nav.programs">Programs</a>
-          <a href="#schedule" data-i18n="nav.schedule">Schedule</a>
-          <a href="#coaches" data-i18n="nav.coaches">Coaches</a>
-          <a href="#membership" data-i18n="nav.membership">Membership</a>
-          <a href="#about" data-i18n="nav.about">About</a>
-          <a href="#trial" data-i18n="nav.contact">Contact</a>
-        </nav>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#programs">Programs <span aria-hidden="true">↓</span></a>
+        <a href="#schedule">Schedule</a>
+        <a href="#coaches">Coaches</a>
+        <a href="#membership">Membership</a>
+        <a href="#about">About</a>
+        <a href="#trial">Contact</a>
+      </nav>
 
-        <div class="lang-switcher">
-          <button class="lang-btn active" data-lang="en">EN</button>
-          <span class="lang-divider">|</span>
-          <button class="lang-btn" data-lang="fr">FR</button>
-        </div>
-
-        <a class="header-cta" href="#trial" data-i18n="nav.book">Book a Trial</a>
-      </header>
+      <a class="header-cta" href="#trial">Book a Trial <span aria-hidden="true">→</span></a>
+    </header>
 
       <main id="top">
-        <section class="hero" aria-label="Monster Gym martial arts training">
-          <div class="hero-inner">
-            <div class="hero-content">
-              <p class="eyebrow" data-i18n="hero.eyebrow">Confidence. Energy. Discipline.</p>
-              <h1>
-                <span data-i18n="hero.title1">Train hard.</span>
-                <span data-i18n="hero.title2">Move sharp.</span>
-                <span class="green-text" data-i18n="hero.title3">Become a monster.</span>
-              </h1>
-              <p class="hero-copy" data-i18n="hero.copy">
-                Boxing, kickboxing, grappling, and strength training in a world-class facility built for all levels.
-              </p>
-              <div class="hero-actions" aria-label="Hero actions">
-                <a class="button primary" href="#trial" data-i18n="hero.trial">Start Free Trial</a>
-                <a class="button secondary" href="#programs" data-i18n="hero.explore">Explore Classes</a>
-              </div>
-            </div>
-
-            <div class="hero-media" aria-label="Looping Monster Gym training video">
-              <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-label="Martial arts athletes training at Monster Gym">
-                <source src="assets/monster-gym-hero.webm" type="video/webm" />
-                <source src="assets/monster-gym-hero.mp4" type="video/mp4" />
-              </video>
-              <div class="video-fallback" aria-hidden="true">
-                <span>Training Video</span>
-              </div>
-              <div class="media-shade" aria-hidden="true"></div>
+        <section class="hero video-ready" aria-label="Monster Gym martial arts training">
+        <div class="hero-inner">
+          <div class="hero-content">
+            <p class="eyebrow">Confidence. Energy. Discipline.</p>
+            <h1>
+              <span>Train hard.</span>
+              <span>Move sharp.</span>
+              <span class="green-text">Become a monster.</span>
+            </h1>
+            <p class="hero-copy">
+              Boxing, kickboxing, grappling, and strength training in a world-class facility built for all levels.
+            </p>
+            <div class="hero-actions" aria-label="Hero actions">
+              <a class="button primary" href="#trial">Start Free Trial <span aria-hidden="true">→</span></a>
+              <a class="button secondary" href="#programs">Explore Classes <span aria-hidden="true">→</span></a>
             </div>
           </div>
-        </section>
+
+          <div class="hero-media" aria-label="Looping Monster Gym training video">
+            <video class="hero-video" autoplay="" muted="" loop="" playsinline="" preload="auto" aria-label="Martial arts athletes training at Monster Gym">
+              <source src="assets/monster-gym-hero.webm" type="video/webm">
+              <source src="assets/monster-gym-hero.mp4" type="video/mp4">
+            </video>
+            <div class="video-fallback" aria-hidden="true">
+              <span>Training Video</span>
+            </div>
+            <div class="media-shade" aria-hidden="true"></div>
+          </div>
+
+        </div>
+
+       </section>
 
         <section class="programs" id="programs" aria-labelledby="programs-title">
           <div class="particles-container"></div>
@@ -103,7 +99,7 @@
               </defs>
             </svg>
             <div class="program-grid">
-              <div class="program-card-wrapper" data-tilt data-stagger="-24">
+              <div class="program-card-wrapper" data-tilt="" data-stagger="-24" style="transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateY(-24px);">
                 <div class="card-backdrop-glow"></div>
                 <a href="#boxing" class="program-card">
                   <div class="card-inner">
@@ -116,7 +112,7 @@
                     <div class="card-content">
                       <h3 data-i18n="card.title_boxing">Boxing</h3>
                       <p data-i18n="card.desc_boxing">Build power, speed and confidence.</p>
-                      <span class="card-action"><span data-i18n="card.action">Enter program</span> <span class="arrow">&rarr;</span></span>
+                      <span class="card-action"><span data-i18n="card.action">Enter program</span> <span class="arrow">→</span></span>
                     </div>
                   </div>
                 </a>
@@ -181,15 +177,7 @@
 
         <section class="intro animate-on-scroll" id="about">
           <!-- Background Animations & Typography -->
-          <div class="intro-bg-decorations" aria-hidden="true">
-            <div class="decor-grid"></div>
-            <div class="decor-spotlight"></div>
-            <div class="decor-giant-texts">
-              <span class="decor-ghost ghost-1">DISCIPLINE</span>
-              <span class="decor-ghost ghost-2">NO EGO</span>
-              <span class="decor-ghost ghost-3">RESPECT</span>
-            </div>
-          </div>
+         
 
           <!-- Asymmetric Split Grid -->
           <div class="intro-inner">
@@ -270,68 +258,145 @@
           </div>
         </section>
 
-        <section class="training-band">
-          <div class="band-copy">
-            <p class="section-kicker" data-i18n="features.kicker">What You Get</p>
-            <h2 data-i18n="features.title">Technique, sweat, recovery, repeat.</h2>
-          </div>
-          <div class="feature-list">
+       <section class="training-band animate-on-scroll">
+        <div class="band-copy">
+          <p class="section-kicker">What You Get</p>
+          <h2>Technique, sweat, recovery, <span>repeat.</span></h2>
+          <p>Smart training. Real results. Built for every round of your journey.</p>
+        </div>
+        <div class="feature-list">
+          <div>
+            <span class="feature-icon" aria-hidden="true">
+              <img src="assets/feature-coach.webp" alt="">
+            </span>
+            <span class="feature-rule" aria-hidden="true"></span>
             <div>
-              <h3 data-i18n="features.c1_title">Coach-led rounds</h3>
-              <p data-i18n="features.c1_desc">Every class has a clear focus, progression, and correction from experienced instructors.</p>
-            </div>
-            <div>
-              <h3 data-i18n="features.c2_title">Real conditioning</h3>
-              <p data-i18n="features.c2_desc">Build power, stamina, mobility, and resilience with combat-ready training blocks.</p>
-            </div>
-            <div>
-              <h3 data-i18n="features.c3_title">Clean intensity</h3>
-              <p data-i18n="features.c3_desc">Hard work, controlled contact, and a team culture that keeps training productive.</p>
+              <h3><span>01</span> Coach-led rounds</h3>
+              <p>Every class has a clear focus, progression, and correction from experienced instructors.</p>
             </div>
           </div>
-        </section>
+          <div>
+            <span class="feature-icon" aria-hidden="true">
+              <img src="assets/feature-conditioning.webp" alt="">
+            </span>
+            <span class="feature-rule" aria-hidden="true"></span>
+            <div>
+              <h3><span>02</span> Real conditioning</h3>
+              <p>Build power, stamina, mobility, and resilience with combat-ready training blocks.</p>
+            </div>
+          </div>
+          <div>
+            <span class="feature-icon" aria-hidden="true">
+              <img src="assets/feature-intensity.webp" alt="">
+            </span>
+            <span class="feature-rule" aria-hidden="true"></span>
+            <div>
+              <h3><span>03</span> Clean intensity</h3>
+              <p>Hard work, controlled contact, and a team culture that keeps training productive.</p>
+            </div>
+          </div>
+        </div>
+       </section>
 
-        <section class="schedule" id="schedule" aria-labelledby="schedule-title">
-          <div class="section-heading">
-            <p class="section-kicker" data-i18n="schedule.kicker">Weekly Flow</p>
-            <h2 id="schedule-title" data-i18n="schedule.title">Classes that fit real life.</h2>
+        <section class="schedule animate-on-scroll" id="schedule" aria-labelledby="schedule-title">
+          <div class="schedule-heading">
+            <div>
+              <p class="section-kicker schedule-kicker" data-i18n="schedule.kicker">Weekly Flow</p>
+              <h2 id="schedule-title" data-i18n="schedule.title">Classes that fit real life.</h2>
+            </div>
+            <div class="schedule-proof" aria-label="Training promise">
+              <span>Real training.</span>
+              <span>Real results.</span>
+              <span>Real you.</span>
+            </div>
           </div>
-          <div class="schedule-table" role="table" aria-label="Monster Gym weekly class schedule">
-            <div role="row" class="schedule-row header-row">
-              <span role="columnheader" data-i18n="schedule.col_day">Day</span>
-              <span role="columnheader" data-i18n="schedule.col_early">Early</span>
-              <span role="columnheader" data-i18n="schedule.col_evening">Evening</span>
-              <span role="columnheader" data-i18n="schedule.col_focus">Focus</span>
-            </div>
-            <div role="row" class="schedule-row">
-              <span role="cell" data-i18n="schedule.day_mon">Monday</span>
-              <span role="cell"><span data-i18n="schedule.class_boxing">Boxing</span> 07:00</span>
-              <span role="cell"><span data-i18n="schedule.class_kickbox">Kickboxing</span> 18:30</span>
-              <span role="cell" data-i18n="schedule.focus_striking">Striking</span>
-            </div>
-            <div role="row" class="schedule-row">
-              <span role="cell" data-i18n="schedule.day_tue">Tuesday</span>
-              <span role="cell"><span data-i18n="schedule.class_strength">Strength</span> 06:30</span>
-              <span role="cell"><span data-i18n="schedule.class_grappling">Grappling</span> 19:00</span>
-              <span role="cell" data-i18n="schedule.focus_control">Control</span>
-            </div>
-            <div role="row" class="schedule-row">
-              <span role="cell" data-i18n="schedule.day_wed">Wednesday</span>
-              <span role="cell"><span data-i18n="schedule.class_boxing">Boxing</span> 07:00</span>
-              <span role="cell"><span data-i18n="schedule.class_sparring">Sparring Lab</span> 18:30</span>
-              <span role="cell" data-i18n="schedule.focus_timing">Timing</span>
-            </div>
-            <div role="row" class="schedule-row">
-              <span role="cell" data-i18n="schedule.day_thu">Thursday</span>
-              <span role="cell"><span data-i18n="schedule.class_mobility">Mobility</span> 06:30</span>
-              <span role="cell"><span data-i18n="schedule.class_kickbox">Kickboxing</span> 19:00</span>
-              <span role="cell" data-i18n="schedule.focus_power">Power</span>
-            </div>
-            <div role="row" class="schedule-row">
-              <span role="cell" data-i18n="schedule.day_sat">Saturday</span>
-              <span role="cell"><span data-i18n="schedule.class_open">Open Mat</span> 10:00</span>
-              <span role="cell"><span data-i18n="schedule.class_kids">Kids</span> 12:00</span>
-              <span role="cell" data-i18n="schedule.focus_team">Team</span>
+
+          <div class="schedule-board" aria-label="Monster Gym weekly class schedule">
+            <aside class="schedule-days" aria-label="Training days">
+              <button class="schedule-day is-active" type="button" data-day="mon" aria-pressed="true">
+                <span>Mon</span>
+                <span class="schedule-day-arrow" aria-hidden="true">&rsaquo;</span>
+              </button>
+              <button class="schedule-day" type="button" data-day="tue" aria-pressed="false">
+                <span>Tue</span>
+                <span class="schedule-day-arrow" aria-hidden="true">&rsaquo;</span>
+              </button>
+              <button class="schedule-day" type="button" data-day="wed" aria-pressed="false">
+                <span>Wed</span>
+                <span class="schedule-day-arrow" aria-hidden="true">&rsaquo;</span>
+              </button>
+              <button class="schedule-day" type="button" data-day="thu" aria-pressed="false">
+                <span>Thu</span>
+                <span class="schedule-day-arrow" aria-hidden="true">&rsaquo;</span>
+              </button>
+              <button class="schedule-day" type="button" data-day="sat" aria-pressed="false">
+                <span>Sat</span>
+                <span class="schedule-day-arrow" aria-hidden="true">&rsaquo;</span>
+              </button>
+              <div class="schedule-habit">
+                <span aria-hidden="true">+</span>
+                <p><strong>Consistency</strong> changes everything.</p>
+              </div>
+            </aside>
+
+            <div class="schedule-list" role="list">
+              <article class="schedule-feature" role="listitem">
+                <div class="feature-day">
+                  <span class="today-dot"></span>
+                  <span class="today-label">Today</span>
+                  <strong data-i18n="schedule.day_mon">Monday</strong>
+                  <small>Focus: <em data-i18n="schedule.focus_striking">Striking</em></small>
+                </div>
+                <div class="feature-class">
+                  <span class="time-badge"><strong>07:00</strong><small>AM</small></span>
+                  <div>
+                    <h3 data-i18n="schedule.class_boxing">Boxing</h3>
+                    <p>Builds fundamentals. Sharpens focus.</p>
+                  </div>
+                </div>
+                <div class="feature-class">
+                  <span class="time-badge"><strong>18:30</strong><small>PM</small></span>
+                  <div>
+                    <h3 data-i18n="schedule.class_kickbox">Kickboxing</h3>
+                    <p>Power. Technique. Confidence.</p>
+                  </div>
+                </div>
+                <button class="schedule-toggle" type="button" aria-label="Collapse Monday">-</button>
+              </article>
+
+              <article class="schedule-row" role="listitem">
+                <strong>Tue</strong>
+                <span class="mini-session"><i aria-hidden="true"></i><b>06:30</b><small>AM</small><em data-i18n="schedule.class_strength">Strength</em></span>
+                <span class="mini-session"><i aria-hidden="true"></i><b>19:00</b><small>PM</small><em data-i18n="schedule.class_grappling">Grappling</em></span>
+                <span class="row-focus">Focus: <em data-i18n="schedule.focus_control">Control</em></span>
+                <button class="schedule-toggle" type="button" aria-label="Expand Tuesday">+</button>
+              </article>
+              <article class="schedule-row" role="listitem">
+                <strong>Wed</strong>
+                <span class="mini-session"><i aria-hidden="true"></i><b>07:00</b><small>AM</small><em data-i18n="schedule.class_boxing">Boxing</em></span>
+                <span class="mini-session"><i aria-hidden="true"></i><b>18:30</b><small>PM</small><em data-i18n="schedule.class_sparring">Sparring Lab</em></span>
+                <span class="row-focus">Focus: <em data-i18n="schedule.focus_timing">Timing</em></span>
+                <button class="schedule-toggle" type="button" aria-label="Expand Wednesday">+</button>
+              </article>
+              <article class="schedule-row" role="listitem">
+                <strong>Thu</strong>
+                <span class="mini-session"><i aria-hidden="true"></i><b>06:30</b><small>AM</small><em data-i18n="schedule.class_mobility">Mobility</em></span>
+                <span class="mini-session"><i aria-hidden="true"></i><b>19:00</b><small>PM</small><em data-i18n="schedule.class_kickbox">Kickboxing</em></span>
+                <span class="row-focus">Focus: <em data-i18n="schedule.focus_power">Power</em></span>
+                <button class="schedule-toggle" type="button" aria-label="Expand Thursday">+</button>
+              </article>
+              <article class="schedule-row" role="listitem">
+                <strong>Sat</strong>
+                <span class="mini-session"><i aria-hidden="true"></i><b>10:00</b><small>AM</small><em data-i18n="schedule.class_open">Open Mat</em></span>
+                <span class="mini-session"><i aria-hidden="true"></i><b>12:00</b><small>PM</small><em data-i18n="schedule.class_kids">Kids</em></span>
+                <span class="row-focus">Focus: <em data-i18n="schedule.focus_team">Team</em></span>
+                <button class="schedule-toggle" type="button" aria-label="Expand Saturday">+</button>
+              </article>
+
+              <a class="schedule-cta" href="#trial">
+                <span>Show up. Put in the work. Get real results.</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
             </div>
           </div>
         </section>
@@ -385,13 +450,11 @@
           </div>
         </section>
 
-        <section class="membership" id="membership" aria-labelledby="membership-title">
+        <section class="membership animate-on-scroll" id="membership" aria-labelledby="membership-title">
           <div>
             <p class="section-kicker" data-i18n="membership.kicker">Membership</p>
             <h2 id="membership-title" data-i18n="membership.title">Start with the trial. Stay for the standard.</h2>
-            <p data-i18n="membership.copy">
-              Drop in for a coached trial class, meet the team, and find the right program before choosing a plan.
-            </p>
+            <p data-i18n="membership.copy">Drop in for a coached trial class, meet the team, and find the right program before choosing a plan.</p>
           </div>
           <div class="price-panel">
             <span class="price-label" data-i18n="membership.price_label">Most popular</span>
@@ -407,38 +470,76 @@
           </div>
         </section>
 
-        <section class="trial" id="trial" aria-labelledby="trial-title">
+        <section class="trial animate-on-scroll" id="trial" aria-labelledby="trial-title">
+        <div class="trial-intro">
           <div>
-            <p class="section-kicker" data-i18n="trial.kicker">Book In</p>
-            <h2 id="trial-title" data-i18n="trial.title">Your first class is waiting.</h2>
+            <p class="section-kicker">Book In</p>
+            <h2 id="trial-title">Your first class is <span>waiting.</span></h2>
+            <p>Tell us a little about yourself and we'll help you get started.</p>
           </div>
-          <form class="trial-form">
-            <label>
-              <span data-i18n="trial.label_name">Name</span>
-              <input type="text" name="name" placeholder="Your name" data-i18n-placeholder="trial.placeholder_name" autocomplete="name" />
-            </label>
-            <label>
-              <span data-i18n="trial.label_email">Email</span>
-              <input type="email" name="email" placeholder="you@example.com" data-i18n-placeholder="trial.placeholder_email" autocomplete="email" />
-            </label>
-            <label>
-              <span data-i18n="trial.label_program">Program</span>
-              <select name="program">
-                <option data-i18n="card.title_boxing">Boxing</option>
-                <option data-i18n="card.title_kickbox">Kickboxing</option>
-                <option data-i18n="card.title_grappling">Grappling</option>
-                <option data-i18n="card.title_kids">Kids Martial Arts</option>
-              </select>
-            </label>
-            <button class="button primary" type="submit" data-i18n="trial.submit">Request Trial</button>
-          </form>
+        </div>
+        <form class="trial-form">
+          <label>
+            Name
+            <input type="text" name="name" placeholder="Your name" autocomplete="name">
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" placeholder="you@example.com" autocomplete="email">
+          </label>
+          <label>
+            Program
+            <select name="program">
+              <option>Boxing</option>
+              <option>Kickboxing</option>
+              <option>Grappling</option>
+              <option>Kids Martial Arts</option>
+            </select>
+          </label>
+          <button class="button primary" type="submit">Request Trial</button>
+          <p class="privacy-note">We respect your privacy. Your information is safe with us.</p>
+        </form>
         </section>
       </main>
 
-      <footer>
-        <strong>Monster Gym</strong>
-        <span data-i18n="footer.tagline">Confidence. Energy. Discipline.</span>
-        <span>hello@monstergym.example</span>
+      <footer class="site-footer animate-on-scroll">
+        <div class="footer-main">
+          <a class="footer-brand" href="#top" aria-label="Monster Gym home">
+            <span class="brand-logo-wrap">
+              <img class="brand-logo" src="assets/monster-gym-logo.webp" alt="Monster Gym logo">
+            </span>
+            <span>
+              <strong>Monster Gym</strong>
+              <small data-i18n="footer.tagline">Confidence. Energy. Discipline.</small>
+            </span>
+          </a>
+
+          <nav class="footer-links" aria-label="Footer navigation">
+            <a href="#programs">Programs</a>
+            <a href="#schedule">Schedule</a>
+            <a href="#coaches">Coaches</a>
+            <a href="#membership">Membership</a>
+            <a href="#trial">Contact</a>
+          </nav>
+
+          <div class="footer-programs" aria-label="Training programs">
+            <span>Boxing</span>
+            <span>Kickboxing</span>
+            <span>Grappling</span>
+            <span>Strength</span>
+          </div>
+
+          <div class="footer-contact">
+            <span>hello@monstergym.example</span>
+            <span>Mon-Sat / 06:30-20:00</span>
+            <a class="button primary" href="#trial">Book a Trial</a>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 Monster Gym. All rights reserved.</span>
+          <span>Real training. Real results.</span>
+        </div>
       </footer>
     </div>
 
@@ -466,66 +567,6 @@
         </svg>
       </button>
 
-<<<<<<< HEAD
-      <section class="membership" id="membership" aria-labelledby="membership-title">
-        <div>
-          <p class="section-kicker">Membership</p>
-          <h2 id="membership-title">Start with the <span>trial.</span> Stay for the <span>standard.</span></h2>
-          <p>
-            Drop in for a coached trial class, meet the team, and find the right program before choosing a plan.
-          </p>
-          <div class="membership-features" aria-label="Membership highlights">
-            <span><b>Expert</b> Coaches</span>
-            <span><b>Premium</b> Facilities</span>
-            <span><b>Track</b> Progress</span>
-          </div>
-        </div>
-        <div class="price-panel">
-          <span class="price-label">Most popular</span>
-          <h3>Unlimited Training</h3>
-          <p class="price">$129<span>/mo</span></p>
-          <ul>
-            <li>All adult classes</li>
-            <li>Open mat access</li>
-            <li>Strength room blocks</li>
-            <li>Monthly progress check</li>
-          </ul>
-          <a class="button primary" href="#trial">Claim Trial Spot</a>
-        </div>
-      </section>
-
-      <section class="trial" id="trial" aria-labelledby="trial-title">
-        <div class="trial-intro">
-          <div>
-            <p class="section-kicker">Book In</p>
-            <h2 id="trial-title">Your first class is <span>waiting.</span></h2>
-            <p>Tell us a little about yourself and we'll help you get started.</p>
-          </div>
-        </div>
-        <form class="trial-form">
-          <label>
-            Name
-            <input type="text" name="name" placeholder="Your name" autocomplete="name" />
-          </label>
-          <label>
-            Email
-            <input type="email" name="email" placeholder="you@example.com" autocomplete="email" />
-          </label>
-          <label>
-            Program
-            <select name="program">
-              <option>Boxing</option>
-              <option>Kickboxing</option>
-              <option>Grappling</option>
-              <option>Kids Martial Arts</option>
-            </select>
-          </label>
-          <button class="button primary" type="submit">Request Trial</button>
-          <p class="privacy-note">We respect your privacy. Your information is safe with us.</p>
-        </form>
-      </section>
-    </main>
-=======
       <!-- Chat Window Overlay -->
       <div id="chatbot-window" class="chatbot-hidden" role="dialog" aria-modal="true" aria-label="Monster Gym AI Assistant">
         <!-- Chat Header -->
@@ -544,7 +585,6 @@
         <div id="chatbot-history" role="log" aria-live="polite">
           <!-- Populated by JS -->
         </div>
->>>>>>> ab34cce18a0670c4367cc3e64f51a71f2e35a807
 
         <!-- Prompt Suggestions -->
         <div class="chatbot-suggestions" id="chatbot-suggestions">
