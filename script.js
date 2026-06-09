@@ -1749,6 +1749,40 @@ const toggleChat = (forceState) => {
   }
 };
 
+const getMockResponse = (query, lang) => {
+  const q = query.toLowerCase();
+  
+  if (lang === "fr") {
+    let response = "**[SIMULATION LOCALE]**\n\n";
+    if (q.includes("essai") || q.includes("réserver") || q.includes("reserver") || q.includes("gratuit") || q.includes("trial") || q.includes("book")) {
+      response += "Pour réserver votre **cours d'essai gratuit**, faites défiler vers le bas jusqu'à la section **Réservation** au bas de la page. Remplissez le formulaire avec votre nom, e-mail et le programme souhaité. Notre équipe vous contactera sous 24h.";
+    } else if (q.includes("planning") || q.includes("cours") || q.includes("horaire") || q.includes("schedule")) {
+      response += "Le planning hebdomadaire de Monster Gym :\n- **Lundi / Mercredi** : Boxe (Matin/Soir) & Labo Sparring\n- **Mardi / Jeudi** : Grappling (Soir) & Musculation/Force\n- **Samedi** : Tapis Libre et Cours Enfants\n\nVous pouvez voir tous les détails dans la section **Planning** ci-dessus.";
+    } else if (q.includes("programme") || q.includes("explore") || q.includes("boxing") || q.includes("boxe") || q.includes("kick") || q.includes("grapp") || q.includes("force") || q.includes("muscu")) {
+      response += "Nous proposons 4 programmes d'élite :\n1. **Boxe** : Travail de jambes et puissance.\n2. **Kickboxing** : Enchaînements et conditionnement.\n3. **Grappling** : Soumissions et contrôle au sol.\n4. **Force** : Musculation et explosivité.\n\nCliquez sur les cartes dans la section **Choisissez votre combat** pour en savoir plus.";
+    } else if (q.includes("coach") || q.includes("entraineur") || q.includes("prof")) {
+      response += "Nos cours sont dispensés par des combattants professionnels :\n- **Maya Torres** (Boxe)\n- **Lina Tremblay** (Kickboxing)\n- **Karim Bensaid** (Grappling)\n- **Youssef Al-Fayed** (Force)\n\nExplorez la section **Coaches** ci-dessus pour consulter leurs fiches.";
+    } else {
+      response += "Je suis votre assistant tactique d'entraînement. Pour poser une question au modèle Mistral AI en direct, veuillez déployer ce projet sur Netlify ou Vercel avec votre variable d'environnement `MISTRAL_API_KEY` configurée.";
+    }
+    return response;
+  } else {
+    let response = "**[LOCAL SIMULATION]**\n\n";
+    if (q.includes("trial") || q.includes("book") || q.includes("free") || q.includes("reserve")) {
+      response += "To book your **free trial spot**, scroll down to the **Book a Trial** section at the bottom of this page. Complete the form with your name, email, and preferred program. We will confirm your session shortly!";
+    } else if (q.includes("schedule") || q.includes("hour") || q.includes("time") || q.includes("class")) {
+      response += "Monster Gym Class Schedule:\n- **Monday / Wednesday**: Boxing (Early/Evening) & Sparring Lab\n- **Tuesday / Thursday**: Grappling (Evening) & Strength Training\n- **Saturday**: Open Mat & Kids Martial Arts\n\nCheck the **Weekly Flow** section above for details.";
+    } else if (q.includes("program") || q.includes("explore") || q.includes("boxing") || q.includes("kick") || q.includes("grapp") || q.includes("strength") || q.includes("class")) {
+      response += "We offer 4 premium training programs:\n1. **Boxing** - Fundamentals and footwork.\n2. **Kickboxing** - Striking flow and power.\n3. **Grappling** - Submission control.\n4. **Strength Training** - Compound lifts and stamina.\n\nClick on the program cards above to learn more.";
+    } else if (q.includes("coach") || q.includes("instructor") || q.includes("trainer")) {
+      response += "Our elite coaches are active competitors:\n- **Maya Torres** (Boxing)\n- **Lina Tremblay** (Kickboxing)\n- **Karim Bensaid** (Grappling)\n- **Youssef Al-Fayed** (Strength)\n\nCheck out the **Coaches** section above to view their dossiers.";
+    } else {
+      response += "I am your tactical training coordinator. To chat with the live Mistral AI model, deploy this site to Netlify or Vercel and configure your `MISTRAL_API_KEY` environment variable.";
+    }
+    return response;
+  }
+};
+
 const handleSend = async (customText) => {
   const chatbotInput = document.getElementById("chatbot-input");
   const chatbotSend = document.getElementById("chatbot-send");
@@ -1804,9 +1838,25 @@ const handleSend = async (customText) => {
     }
   } catch (error) {
     console.error("Chatbot error:", error);
-    hideTypingIndicator();
-    const errMsg = TRANSLATIONS[currentLang]["chat.err_send_failed"] || "Error sending message.";
-    appendMessageToDOM("assistant", errMsg);
+    
+    // Check if we are running locally (localhost, 127.0.0.1, or file://)
+    const isLocal = window.location.hostname === "localhost" || 
+                    window.location.hostname === "127.0.0.1" || 
+                    window.location.protocol === "file:";
+                    
+    if (isLocal) {
+      // Simulate typing delay
+      await new Promise(resolve => setTimeout(resolve, 850));
+      hideTypingIndicator();
+      
+      const mockReply = getMockResponse(text, currentLang);
+      chatHistory.push({ role: "assistant", content: mockReply });
+      appendMessageToDOM("assistant", mockReply);
+    } else {
+      hideTypingIndicator();
+      const errMsg = TRANSLATIONS[currentLang]["chat.err_send_failed"] || "Error sending message.";
+      appendMessageToDOM("assistant", errMsg);
+    }
   } finally {
     chatbotSend.disabled = false;
     isGeneratingResponse = false;
