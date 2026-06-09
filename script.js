@@ -1533,6 +1533,138 @@ const handleHashRoute = () => {
 
 window.addEventListener("hashchange", handleHashRoute);
 
+const scheduleDays = [
+  {
+    id: "mon",
+    short: "Mon",
+    full: "Monday",
+    focus: "Striking",
+    sessions: [
+      { time: "07:00", period: "AM", name: "Boxing", desc: "Builds fundamentals. Sharpens focus." },
+      { time: "18:30", period: "PM", name: "Kickboxing", desc: "Power. Technique. Confidence." }
+    ]
+  },
+  {
+    id: "tue",
+    short: "Tue",
+    full: "Tuesday",
+    focus: "Control",
+    sessions: [
+      { time: "06:30", period: "AM", name: "Strength", desc: "Build engine, posture, and repeatable force." },
+      { time: "19:00", period: "PM", name: "Grappling", desc: "Position. Pressure. Calm decisions." }
+    ]
+  },
+  {
+    id: "wed",
+    short: "Wed",
+    full: "Wednesday",
+    focus: "Timing",
+    sessions: [
+      { time: "07:00", period: "AM", name: "Boxing", desc: "Footwork, rhythm, and clean combinations." },
+      { time: "18:30", period: "PM", name: "Sparring Lab", desc: "Controlled rounds with coach feedback." }
+    ]
+  },
+  {
+    id: "thu",
+    short: "Thu",
+    full: "Thursday",
+    focus: "Power",
+    sessions: [
+      { time: "06:30", period: "AM", name: "Mobility", desc: "Move better. Recover faster. Stay ready." },
+      { time: "19:00", period: "PM", name: "Kickboxing", desc: "Explosive strikes and defensive flow." }
+    ]
+  },
+  {
+    id: "sat",
+    short: "Sat",
+    full: "Saturday",
+    focus: "Team",
+    sessions: [
+      { time: "10:00", period: "AM", name: "Open Mat", desc: "Drill, roll, reset, and sharpen together." },
+      { time: "12:00", period: "PM", name: "Kids", desc: "Confidence, movement, and discipline." }
+    ]
+  }
+];
+
+const createFeatureClassMarkup = session => `
+  <div class="feature-class">
+    <span class="time-badge"><strong>${session.time}</strong><small>${session.period}</small></span>
+    <div>
+      <h3>${session.name}</h3>
+      <p>${session.desc}</p>
+    </div>
+  </div>
+`;
+
+const createScheduleRowMarkup = day => `
+  <article class="schedule-row" role="listitem" data-day-row="${day.id}">
+    <strong>${day.short}</strong>
+    <span class="mini-session"><i aria-hidden="true"></i><b>${day.sessions[0].time}</b><small>${day.sessions[0].period}</small><em>${day.sessions[0].name}</em></span>
+    <span class="mini-session"><i aria-hidden="true"></i><b>${day.sessions[1].time}</b><small>${day.sessions[1].period}</small><em>${day.sessions[1].name}</em></span>
+    <span class="row-focus">Focus: <em>${day.focus}</em></span>
+    <button class="schedule-toggle" type="button" aria-label="Expand ${day.full}">+</button>
+  </article>
+`;
+
+const initInteractiveSchedule = () => {
+  const board = document.querySelector(".schedule-board");
+  const list = board?.querySelector(".schedule-list");
+  const dayButtons = board ? Array.from(board.querySelectorAll(".schedule-day[data-day]")) : [];
+  const cta = list?.querySelector(".schedule-cta");
+
+  if (!board || !list || dayButtons.length === 0 || !cta) {
+    return;
+  }
+
+  const renderSchedule = selectedDayId => {
+    const selectedDay = scheduleDays.find(day => day.id === selectedDayId) || scheduleDays[0];
+
+    dayButtons.forEach(button => {
+      const isActive = button.dataset.day === selectedDay.id;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+
+    const featureMarkup = `
+      <article class="schedule-feature" role="listitem" data-day-feature="${selectedDay.id}">
+        <div class="feature-day">
+          <span class="today-dot"></span>
+          <span class="today-label">${selectedDay.id === "mon" ? "Today" : "Selected"}</span>
+          <strong>${selectedDay.full}</strong>
+          <small>Focus: <em>${selectedDay.focus}</em></small>
+        </div>
+        ${selectedDay.sessions.map(createFeatureClassMarkup).join("")}
+        <button class="schedule-toggle" type="button" aria-label="Collapse ${selectedDay.full}">-</button>
+      </article>
+    `;
+
+    const rowMarkup = scheduleDays
+      .filter(day => day.id !== selectedDay.id)
+      .map(createScheduleRowMarkup)
+      .join("");
+
+    list.innerHTML = `${featureMarkup}${rowMarkup}`;
+    list.appendChild(cta);
+
+    list.querySelectorAll(".schedule-row[data-day-row]").forEach(row => {
+      row.addEventListener("click", () => renderSchedule(row.dataset.dayRow));
+    });
+  };
+
+  dayButtons.forEach(button => {
+    button.addEventListener("click", () => renderSchedule(button.dataset.day));
+  });
+
+  list.querySelectorAll(".schedule-row[data-day-row], .schedule-row").forEach(row => {
+    const dayLabel = row.querySelector("strong")?.textContent?.trim().toLowerCase();
+    const day = scheduleDays.find(item => item.short.toLowerCase() === dayLabel);
+    if (day) {
+      row.dataset.dayRow = day.id;
+      row.addEventListener("click", () => renderSchedule(day.id));
+    }
+  });
+};
+
 window.addEventListener("DOMContentLoaded", () => {
   // Wire landing page language switcher buttons
   document.querySelectorAll(".lang-switcher .lang-btn").forEach(btn => {
@@ -1562,6 +1694,8 @@ window.addEventListener("DOMContentLoaded", () => {
       standardPanel.style.setProperty("--mouse-y", `${y}px`);
     });
   }
+
+  initInteractiveSchedule();
 
   // Initialize AI Chatbot
   if (typeof initChatbot === "function") {
@@ -1920,4 +2054,3 @@ const initChatbot = () => {
 
   chatbotSend.addEventListener("click", () => handleSend());
 };
-
