@@ -6326,7 +6326,7 @@ footer strong {
 .program-card .card-content {
   position: relative;
   z-index: 5;
-  margin-top: auto;
+  margin-top: 0;
 }
 
 .program-card h3 {
@@ -6446,6 +6446,37 @@ footer strong {
 @media (max-width: 760px) {
   .schedule-day.is-active {
     min-height: 72px;
+  }
+}
+
+.site-header .lang-switcher {
+  flex: 0 0 auto;
+  min-height: 42px;
+  margin-right: 0;
+  padding: 4px 8px;
+  border-color: rgba(139, 210, 63, 0.28);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+}
+
+.site-header .lang-btn {
+  min-width: 34px;
+  min-height: 30px;
+  border-radius: 4px;
+}
+
+.site-header .lang-btn.active {
+  background: var(--green);
+  color: #071006;
+}
+
+@media (max-width: 720px) {
+  .site-header .lang-switcher {
+    order: 3;
+  }
+
+  .site-header .header-cta {
+    padding-inline: 12px;
   }
 }
 
