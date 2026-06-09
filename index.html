@@ -75,6 +75,7 @@
       </section>
 
       <section class="programs" id="programs" aria-labelledby="programs-title">
+        <div class="particles-container"></div>
         <div class="section-heading animate-on-scroll">
           <div class="heading-title-wrapper">
             <p class="section-kicker">Train Your Way</p>
@@ -82,63 +83,94 @@
           </div>
           <p class="animated-desc">From striking to grappling, strength to conditioning. Find the program that pushes your limits.</p>
         </div>
-        <div class="program-grid animate-on-scroll">
-          <a href="#boxing" class="program-card" data-tilt>
-            <div class="card-inner">
-              <span class="card-tag">STRIKE</span>
-              <div class="card-bg-grid"></div>
-              <div class="card-ghost-text">BOX</div>
-              <div class="card-glow"></div>
-              <div class="card-sweep"></div>
-              <div class="card-content">
-                <h3>Boxing</h3>
-                <p>Build power, speed and confidence.</p>
-                <span class="card-action">Enter program <span class="arrow">&rarr;</span></span>
-              </div>
+        <div class="program-grid-wrapper animate-on-scroll">
+          <svg class="connector-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M 0,35 L 20,35 L 40,65 L 60,35 L 80,65 L 100,65" fill="none" stroke="rgba(139, 210, 63, 0.12)" stroke-width="0.5" stroke-dasharray="1 1" />
+            <path class="glowing-path" d="M 0,35 L 20,35 L 40,65 L 60,35 L 80,65 L 100,65" fill="none" stroke="url(#line-grad)" stroke-width="0.75" />
+            <defs>
+              <linearGradient id="line-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="rgba(139, 210, 63, 0)" />
+                <stop offset="30%" stop-color="rgba(139, 210, 63, 0.1)" />
+                <stop offset="50%" stop-color="rgba(139, 210, 63, 0.7)" />
+                <stop offset="70%" stop-color="rgba(139, 210, 63, 0.1)" />
+                <stop offset="100%" stop-color="rgba(139, 210, 63, 0)" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="program-grid">
+            <div class="program-card-wrapper" data-tilt data-stagger="-24">
+              <div class="card-backdrop-glow"></div>
+              <a href="#boxing" class="program-card">
+                <div class="card-inner">
+                  <span class="card-tag">STRIKE</span>
+                  <div class="card-bg-grid"></div>
+                  <div class="card-ghost-text">BOX</div>
+                  <div class="card-glow"></div>
+                  <div class="card-sweep"></div>
+                  <div class="card-scan"></div>
+                  <div class="card-content">
+                    <h3>Boxing</h3>
+                    <p>Build power, speed and confidence.</p>
+                    <span class="card-action">Enter program <span class="arrow">&rarr;</span></span>
+                  </div>
+                </div>
+              </a>
             </div>
-          </a>
-          <a href="#kickboxing" class="program-card" data-tilt>
-            <div class="card-inner">
-              <span class="card-tag">POWER</span>
-              <div class="card-bg-grid"></div>
-              <div class="card-ghost-text">KICK</div>
-              <div class="card-glow"></div>
-              <div class="card-sweep"></div>
-              <div class="card-content">
-                <h3>Kickboxing</h3>
-                <p>Striking, combinations and conditioning.</p>
-                <span class="card-action">Enter program <span class="arrow">&rarr;</span></span>
-              </div>
+            <div class="program-card-wrapper" data-tilt data-stagger="24">
+              <div class="card-backdrop-glow"></div>
+              <a href="#kickboxing" class="program-card">
+                <div class="card-inner">
+                  <span class="card-tag">POWER</span>
+                  <div class="card-bg-grid"></div>
+                  <div class="card-ghost-text">KICK</div>
+                  <div class="card-glow"></div>
+                  <div class="card-sweep"></div>
+                  <div class="card-scan"></div>
+                  <div class="card-content">
+                    <h3>Kickboxing</h3>
+                    <p>Striking, combinations and conditioning.</p>
+                    <span class="card-action">Enter program <span class="arrow">&rarr;</span></span>
+                  </div>
+                </div>
+              </a>
             </div>
-          </a>
-          <a href="#grappling" class="program-card" data-tilt>
-            <div class="card-inner">
-              <span class="card-tag">CONTROL</span>
-              <div class="card-bg-grid"></div>
-              <div class="card-ghost-text">GRAP</div>
-              <div class="card-glow"></div>
-              <div class="card-sweep"></div>
-              <div class="card-content">
-                <h3>Grappling</h3>
-                <p>Control, technique and leverage.</p>
-                <span class="card-action">Enter program <span class="arrow">&rarr;</span></span>
-              </div>
+            <div class="program-card-wrapper" data-tilt data-stagger="-24">
+              <div class="card-backdrop-glow"></div>
+              <a href="#grappling" class="program-card">
+                <div class="card-inner">
+                  <span class="card-tag">CONTROL</span>
+                  <div class="card-bg-grid"></div>
+                  <div class="card-ghost-text">GRAP</div>
+                  <div class="card-glow"></div>
+                  <div class="card-sweep"></div>
+                  <div class="card-scan"></div>
+                  <div class="card-content">
+                    <h3>Grappling</h3>
+                    <p>Control, technique and leverage.</p>
+                    <span class="card-action">Enter program <span class="arrow">&rarr;</span></span>
+                  </div>
+                </div>
+              </a>
             </div>
-          </a>
-          <a href="#strength" class="program-card" data-tilt>
-            <div class="card-inner">
-              <span class="card-tag">FORCE</span>
-              <div class="card-bg-grid"></div>
-              <div class="card-ghost-text">LIFT</div>
-              <div class="card-glow"></div>
-              <div class="card-sweep"></div>
-              <div class="card-content">
-                <h3>Strength Training</h3>
-                <p>Get strong. Stay strong. Perform better.</p>
-                <span class="card-action">Enter program <span class="arrow">&rarr;</span></span>
-              </div>
+            <div class="program-card-wrapper" data-tilt data-stagger="24">
+              <div class="card-backdrop-glow"></div>
+              <a href="#strength" class="program-card">
+                <div class="card-inner">
+                  <span class="card-tag">FORCE</span>
+                  <div class="card-bg-grid"></div>
+                  <div class="card-ghost-text">LIFT</div>
+                  <div class="card-glow"></div>
+                  <div class="card-sweep"></div>
+                  <div class="card-scan"></div>
+                  <div class="card-content">
+                    <h3>Strength Training</h3>
+                    <p>Get strong. Stay strong. Perform better.</p>
+                    <span class="card-action">Enter program <span class="arrow">&rarr;</span></span>
+                  </div>
+                </div>
+              </a>
             </div>
-          </a>
+          </div>
         </div>
       </section>
 

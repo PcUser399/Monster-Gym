@@ -51,28 +51,63 @@ if ("IntersectionObserver" in window && animatedElements.length > 0) {
   });
 }
 
+// --- Dynamic Particle Generator ---
+const particlesContainer = document.querySelector(".particles-container");
+if (particlesContainer) {
+  const particleCount = 25;
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement("div");
+    particle.classList.add("particle");
+    
+    const size = Math.random() * 3.5 + 1.5; // 1.5px to 5px
+    const left = Math.random() * 100;
+    const top = Math.random() * 100;
+    const delay = Math.random() * 10;
+    const duration = Math.random() * 14 + 10; // 10s to 24s
+    
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.left = `${left}%`;
+    particle.style.top = `${top}%`;
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.animationDuration = `${duration}s`;
+    
+    particlesContainer.appendChild(particle);
+  }
+}
+
 // --- Premium 3D Mouse Tilt Interaction ---
 const isHoverSupported = window.matchMedia("(hover: hover)").matches;
 if (isHoverSupported) {
-  const tiltCards = document.querySelectorAll("[data-tilt]");
-  tiltCards.forEach(card => {
-    card.addEventListener("mousemove", e => {
-      const rect = card.getBoundingClientRect();
+  const tiltWrappers = document.querySelectorAll(".program-card-wrapper");
+  tiltWrappers.forEach(wrapper => {
+    wrapper.addEventListener("mousemove", e => {
+      const rect = wrapper.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
       
-      // Calculate rotation angle (max 7-8 degrees for premium, subtle movement)
+      // Calculate rotation angle (max 7 degrees for premium, subtle movement)
       const rotateX = ((centerY - y) / centerY) * 7;
       const rotateY = ((x - centerX) / centerX) * 7;
       
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02) translateY(-8px)`;
+      // Get stagger offset if screen is larger than mobile (640px)
+      let stagger = 0;
+      if (window.innerWidth > 640) {
+        stagger = parseFloat(wrapper.getAttribute("data-stagger") || "0");
+      }
+      
+      wrapper.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.025, 1.025, 1.025) translateY(${stagger - 8}px)`;
     });
     
-    card.addEventListener("mouseleave", () => {
-      card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateY(0)";
+    wrapper.addEventListener("mouseleave", () => {
+      let stagger = 0;
+      if (window.innerWidth > 640) {
+        stagger = parseFloat(wrapper.getAttribute("data-stagger") || "0");
+      }
+      wrapper.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateY(${stagger}px)`;
     });
   });
 }
