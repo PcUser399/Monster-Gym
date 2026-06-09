@@ -183,11 +183,15 @@ const TRANSLATIONS = {
     "schedule.class_open": "Open Mat",
     "schedule.class_kids": "Kids",
     "schedule.focus_team": "Team",
-    "coaches.kicker": "Coaches",
-    "coaches.title": "Led by fighters. Built for members.",
-    "coaches.c1_desc": "Boxing coach focused on fundamentals, footwork, and composure under pressure.",
-    "coaches.c2_desc": "Kickboxing and conditioning coach with a sharp eye for clean mechanics.",
-    "coaches.c3_desc": "Grappling coach specializing in beginner progression and competition prep.",
+    "coaches.kicker": "COACHES ///",
+    "coaches.title": "LED BY FIGHTERS. BUILT FOR MEMBERS.",
+    "coaches.subtitle": "Real coaching. Real feedback. No ego. No wasted rounds.",
+    "coaches.p1_title": "Coach-led technique",
+    "coaches.p1_desc": "Real feedback every session.",
+    "coaches.p2_title": "Pressure-tested training",
+    "coaches.p2_desc": "Built for the mat, ring, and daily life.",
+    "coaches.p3_title": "No ego culture",
+    "coaches.p3_desc": "Serious work. Respectful room.",
     "membership.kicker": "Membership",
     "membership.title": "Start with the trial. Stay for the standard.",
     "membership.copy": "Drop in for a coached trial class, meet the team, and find the right program before choosing a plan.",
@@ -276,11 +280,15 @@ const TRANSLATIONS = {
     "schedule.class_open": "Tapis Libre",
     "schedule.class_kids": "Enfants",
     "schedule.focus_team": "Équipe",
-    "coaches.kicker": "Coachs",
-    "coaches.title": "Dirigé par des combattants. Conçu pour les membres.",
-    "coaches.c1_desc": "Coach de boxe spécialisée dans les fondamentaux, le déplacement et le sang-froid sous pression.",
-    "coaches.c2_desc": "Coach de kickboxing et conditionnement avec un œil affûté pour la biomécanique du mouvement.",
-    "coaches.c3_desc": "Coach de grappling spécialisée dans l'initiation et la préparation à la compétition.",
+    "coaches.kicker": "COACHS ///",
+    "coaches.title": "DIRIGÉ PAR DES COMBATTANTS. CONÇU POUR LES MEMBRES.",
+    "coaches.subtitle": "Un vrai coaching. De vrais retours. Pas d'ego. Pas de rounds gâchés.",
+    "coaches.p1_title": "Technique guidée",
+    "coaches.p1_desc": "De vrais retours à chaque séance.",
+    "coaches.p2_title": "Entraînement éprouvé",
+    "coaches.p2_desc": "Conçu pour le tatami, le ring et le quotidien.",
+    "coaches.p3_title": "Culture sans ego",
+    "coaches.p3_desc": "Travail sérieux. Respect mutuel.",
     "membership.kicker": "Adhésion",
     "membership.title": "Commencez par l'essai. Adoptez la formule.",
     "membership.copy": "Venez pour un cours d'essai encadré, rencontrez l'équipe et trouvez le bon programme avant de choisir une formule.",
@@ -308,6 +316,327 @@ const TRANSLATIONS = {
 // --- Language State Management ---
 let currentLang = localStorage.getItem("monster_gym_lang") || "en";
 
+// --- Active Coach State ---
+let activeCoachIndex = 0;
+
+// --- Coaches Dossiers Config Array ---
+const COACHES_DATA = {
+  en: [
+    {
+      id: "MENTOR ID // 01",
+      name: "Maya Torres",
+      role: "Boxing Coach",
+      specialty: "Fundamentals / Footwork / Composure",
+      description: "Boxing coach focused on fundamentals, footwork, and composure under pressure.",
+      quote: "Clean basics beat chaos.",
+      tags: ["Boxing", "Footwork", "Defense", "Confidence"],
+      stats: {
+        technique: 95,
+        conditioning: 88,
+        discipline: 96,
+        fightIq: 92
+      },
+      image: "assets/coach_maya.png",
+      disciplineCode: "boxing",
+      accentColor: "#8bd23f"
+    },
+    {
+      id: "MENTOR ID // 02",
+      name: "Karim Haddad",
+      role: "Kickboxing Coach",
+      specialty: "Combinations / Timing / Conditioning",
+      description: "Kickboxing coach building sharp combinations, rhythm, and full-body fight conditioning.",
+      quote: "Power means nothing without rhythm.",
+      tags: ["Kickboxing", "Timing", "Power", "Cardio"],
+      stats: {
+        technique: 90,
+        conditioning: 96,
+        discipline: 89,
+        fightIq: 88
+      },
+      image: "assets/coach_karim.png",
+      disciplineCode: "kickboxing",
+      accentColor: "#ff453a"
+    },
+    {
+      id: "MENTOR ID // 03",
+      name: "Youssef Ben Salah",
+      role: "Grappling Coach",
+      specialty: "Control / Leverage / Pressure",
+      description: "Grappling coach focused on control, transitions, pressure, and calm decision-making.",
+      quote: "Control first. Finish second.",
+      tags: ["Grappling", "Pressure", "Leverage", "Control"],
+      stats: {
+        technique: 94,
+        conditioning: 86,
+        discipline: 93,
+        fightIq: 97
+      },
+      image: "assets/coach_youssef.png",
+      disciplineCode: "grappling",
+      accentColor: "#ffd60a"
+    },
+    {
+      id: "MENTOR ID // 04",
+      name: "Lina Mansour",
+      role: "Strength Coach",
+      specialty: "Strength / Mobility / Performance",
+      description: "Strength coach helping members build power, resilience, mobility, and long-term athletic performance.",
+      quote: "Strong is built rep by rep.",
+      tags: ["Strength", "Mobility", "Power", "Resilience"],
+      stats: {
+        technique: 87,
+        conditioning: 90,
+        discipline: 95,
+        fightIq: 84
+      },
+      image: "assets/coach_lina.png",
+      disciplineCode: "strength",
+      accentColor: "#0a84ff"
+    }
+  ],
+  fr: [
+    {
+      id: "ID MENTOR // 01",
+      name: "Maya Torres",
+      role: "Coach de Boxe",
+      specialty: "Fondamentaux / Jeu de jambes / Calme",
+      description: "Coach de boxe spécialisée dans les fondamentaux, le déplacement et le sang-froid sous pression.",
+      quote: "Les bases propres surclassent le chaos.",
+      tags: ["Boxe", "Jeu de jambes", "Défense", "Confiance"],
+      stats: {
+        technique: 95,
+        conditioning: 88,
+        discipline: 96,
+        fightIq: 92
+      },
+      image: "assets/coach_maya.png",
+      disciplineCode: "boxing",
+      accentColor: "#8bd23f"
+    },
+    {
+      id: "ID MENTOR // 02",
+      name: "Karim Haddad",
+      role: "Coach de Kickboxing",
+      specialty: "Enchaînements / Timing / Conditionnement",
+      description: "Coach de kickboxing focalisé sur les combinaisons rapides, le rythme et le conditionnement physique.",
+      quote: "La puissance n'est rien sans rythme.",
+      tags: ["Kickboxing", "Timing", "Puissance", "Cardio"],
+      stats: {
+        technique: 90,
+        conditioning: 96,
+        discipline: 89,
+        fightIq: 88
+      },
+      image: "assets/coach_karim.png",
+      disciplineCode: "kickboxing",
+      accentColor: "#ff453a"
+    },
+    {
+      id: "ID MENTOR // 03",
+      name: "Youssef Ben Salah",
+      role: "Coach de Grappling",
+      specialty: "Contrôle / Effet de levier / Pression",
+      description: "Coach de grappling axé sur le contrôle positionnel, les transitions, la pression et le calme au sol.",
+      quote: "Contrôler d'abord. Finaliser ensuite.",
+      tags: ["Grappling", "Pression", "Effet de levier", "Contrôle"],
+      stats: {
+        technique: 94,
+        conditioning: 86,
+        discipline: 93,
+        fightIq: 97
+      },
+      image: "assets/coach_youssef.png",
+      disciplineCode: "grappling",
+      accentColor: "#ffd60a"
+    },
+    {
+      id: "ID MENTOR // 04",
+      name: "Lina Mansour",
+      role: "Coach de Force & Musculation",
+      specialty: "Force / Mobilité / Performance",
+      description: "Coach de musculation aidant les membres à développer force, résilience et performance athlétique.",
+      quote: "La force se construit répétition après répétition.",
+      tags: ["Force", "Mobilité", "Puissance", "Résilience"],
+      stats: {
+        technique: 87,
+        conditioning: 90,
+        discipline: 95,
+        fightIq: 84
+      },
+      image: "assets/coach_lina.png",
+      disciplineCode: "strength",
+      accentColor: "#0a84ff"
+    }
+  ]
+};
+
+const renderCoaches = () => {
+  const coaches = COACHES_DATA[currentLang];
+  const activeCoach = coaches[activeCoachIndex];
+  
+  // Populate selectors list
+  const selectorList = document.getElementById("coach-selector-list");
+  if (selectorList) {
+    selectorList.innerHTML = coaches.map((coach, index) => {
+      const isActive = index === activeCoachIndex;
+      return `
+        <div class="selector-card ${isActive ? 'active' : ''}" data-index="${index}" style="--coach-theme: ${coach.accentColor};">
+          <div class="selector-thumb">
+            <img src="${coach.image}" alt="${coach.name}" />
+          </div>
+          <div class="selector-info">
+            <h4>${coach.name}</h4>
+            <span class="selector-role">${coach.role}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Attach click event listeners to selectors
+    selectorList.querySelectorAll(".selector-card").forEach(card => {
+      card.addEventListener("click", () => {
+        const index = parseInt(card.getAttribute("data-index"));
+        selectCoach(index);
+      });
+    });
+  }
+
+  // Populate active coach panel
+  const panel = document.getElementById("active-coach-panel");
+  if (panel && activeCoach) {
+    panel.style.setProperty("--active-accent", activeCoach.accentColor);
+
+    const labels = currentLang === 'en' ? {
+      technique: "Technique",
+      conditioning: "Conditioning",
+      discipline: "Discipline",
+      fightIq: "Fight IQ",
+      trainWith: "Train With"
+    } : {
+      technique: "Technique",
+      conditioning: "Conditionnement",
+      discipline: "Discipline",
+      fightIq: "QI de Combat",
+      trainWith: "S'entraîner avec"
+    };
+
+    panel.innerHTML = `
+      <div class="coach-portrait-wrap">
+        <img src="${activeCoach.image}" alt="${activeCoach.name}" />
+        <div class="coach-portrait-overlay"></div>
+        <div class="coach-scan-line"></div>
+      </div>
+      <div class="coach-details-wrap">
+        <div class="dossier-header">
+          <span>${activeCoach.id}</span>
+          <span class="dossier-id">SYS // ACTIVE</span>
+        </div>
+        <div class="coach-meta-info">
+          <span class="coach-title-label">${activeCoach.role}</span>
+          <h3>${activeCoach.name}</h3>
+          <span class="coach-specialty">${activeCoach.specialty}</span>
+        </div>
+        <p class="coach-description">${activeCoach.description}</p>
+        <p class="coach-quote">“${activeCoach.quote}”</p>
+        <div class="coach-stats-list">
+          <div class="stat-row">
+            <div class="stat-info">
+              <span>${labels.technique}</span>
+              <span class="stat-num">${activeCoach.stats.technique}%</span>
+            </div>
+            <div class="stat-bar-bg">
+              <div class="stat-bar-fill" data-value="${activeCoach.stats.technique}"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-info">
+              <span>${labels.conditioning}</span>
+              <span class="stat-num">${activeCoach.stats.conditioning}%</span>
+            </div>
+            <div class="stat-bar-bg">
+              <div class="stat-bar-fill" data-value="${activeCoach.stats.conditioning}"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-info">
+              <span>${labels.discipline}</span>
+              <span class="stat-num">${activeCoach.stats.discipline}%</span>
+            </div>
+            <div class="stat-bar-bg">
+              <div class="stat-bar-fill" data-value="${activeCoach.stats.discipline}"></div>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-info">
+              <span>${labels.fightIq}</span>
+              <span class="stat-num">${activeCoach.stats.fightIq}%</span>
+            </div>
+            <div class="stat-bar-bg">
+              <div class="stat-bar-fill" data-value="${activeCoach.stats.fightIq}"></div>
+            </div>
+          </div>
+        </div>
+        <div class="coach-tags-wrap">
+          ${activeCoach.tags.map(tag => `<span class="coach-tag">${tag}</span>`).join('')}
+        </div>
+        <button class="button primary coach-cta-btn">${labels.trainWith} ${activeCoach.name.split(' ')[0]}</button>
+      </div>
+    `;
+
+    // Trigger stats progression animation
+    setTimeout(() => {
+      panel.querySelectorAll(".stat-bar-fill").forEach(fill => {
+        const val = fill.getAttribute("data-value");
+        fill.style.width = `${val}%`;
+      });
+    }, 50);
+
+    // Wire booking CTA button
+    const ctaBtn = panel.querySelector(".coach-cta-btn");
+    if (ctaBtn) {
+      ctaBtn.addEventListener("click", () => {
+        const targetForm = document.getElementById("trial");
+        if (targetForm) {
+          targetForm.scrollIntoView({ behavior: "smooth" });
+          const selectBox = targetForm.querySelector("select[name='program']");
+          if (selectBox) {
+            const indexMap = {
+              boxing: 0,
+              kickboxing: 1,
+              grappling: 2,
+              strength: 2
+            };
+            if (indexMap[activeCoach.disciplineCode] !== undefined) {
+              selectBox.selectedIndex = indexMap[activeCoach.disciplineCode];
+            }
+          }
+        }
+      });
+    }
+  }
+};
+
+const selectCoach = (index) => {
+  if (index === activeCoachIndex) return;
+  activeCoachIndex = index;
+  
+  renderCoaches();
+
+  const panel = document.getElementById("active-coach-panel");
+  if (panel) {
+    panel.classList.remove("scanning");
+    void panel.offsetWidth;
+    panel.classList.add("scanning");
+  }
+
+  const coach = COACHES_DATA[currentLang][activeCoachIndex];
+  const decorText = document.querySelector(".coaches-bg-decorations .decor-giant-text");
+  if (decorText && coach) {
+    decorText.textContent = coach.disciplineCode.toUpperCase();
+  }
+};
+
 const translatePage = (lang) => {
   const elements = document.querySelectorAll("[data-i18n]");
   elements.forEach(el => {
@@ -334,6 +663,9 @@ const translatePage = (lang) => {
       btn.classList.remove("active");
     }
   });
+
+  // Re-render coaches list
+  renderCoaches();
 };
 
 const setLanguage = (lang) => {
@@ -1162,6 +1494,14 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   translatePage(currentLang);
+  
+  // Set initial coaches background giant text decoration
+  const initialCoach = COACHES_DATA[currentLang][activeCoachIndex];
+  const decorText = document.querySelector(".coaches-bg-decorations .decor-giant-text");
+  if (decorText && initialCoach) {
+    decorText.textContent = initialCoach.disciplineCode.toUpperCase();
+  }
+
   handleHashRoute();
 });
 

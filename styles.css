@@ -902,40 +902,534 @@ section:not(.hero) {
   color: var(--paper);
   text-transform: uppercase;
 }
-
-.coach-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+/* --- The Fight Room: Coaches Redesign --- */
+.coaches {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(80px, 10vw, 140px) 0;
 }
 
-.coach-grid article {
-  padding: 14px;
+/* Background grid & outline text decorations */
+.coaches-bg-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.coach-photo {
-  min-height: 310px;
-  margin-bottom: 18px;
+.coaches-bg-decorations .decor-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.003) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.003) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.25;
+}
+
+.coaches-bg-decorations .decor-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 20%, #030503 90%);
+}
+
+.coaches-bg-decorations .decor-giant-text {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  font-family: Anton, sans-serif;
+  font-size: clamp(12rem, 24vw, 32rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.02);
+  user-select: none;
+}
+
+/* Layout Container */
+.fight-room-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 40px;
+  position: relative;
+  z-index: 1;
+  margin-top: 48px;
+}
+
+/* Active Dossier Panel */
+.active-coach-panel {
+  background: rgba(10, 13, 11, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  box-shadow: 
+    inset 0 0 20px rgba(255, 255, 255, 0.02),
+    0 24px 64px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(0, 0, 0, 0.8);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Portrait Showcase style */
+.coach-portrait-wrap {
+  position: relative;
+  height: 100%;
+  min-height: 480px;
+  background: #090b09;
+  overflow: hidden;
+}
+
+.coach-portrait-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  filter: grayscale(20%) contrast(110%);
+}
+
+.active-coach-panel:hover .coach-portrait-wrap img {
+  transform: scale(1.05);
+}
+
+.coach-portrait-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(3, 5, 3, 0.9) 0%, rgba(3, 5, 3, 0.1) 60%);
+  pointer-events: none;
+}
+
+/* Scanning scanline animation */
+.coach-scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--active-accent, var(--green)), transparent);
+  box-shadow: 0 0 10px var(--active-accent, var(--green));
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.active-coach-panel.scanning .coach-scan-line {
+  animation: scan-vertical 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes scan-vertical {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* Details and Copy formatting */
+.coach-details-wrap {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.dossier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+}
+
+.dossier-id {
+  color: var(--active-accent, var(--green));
+  font-weight: 700;
+}
+
+.coach-meta-info {
+  margin-top: -6px;
+}
+
+.coach-meta-info h3 {
+  font-family: Anton, sans-serif;
+  font-size: 2.4rem;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+}
+
+.coach-meta-info .coach-title-label {
+  font-family: Anton, sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--active-accent, var(--green));
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.coach-meta-info .coach-specialty {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.coach-description {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--paper-soft);
+  margin: 0;
+}
+
+.coach-quote {
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--paper);
+  border-left: 2px solid var(--active-accent, var(--green));
+  padding-left: 14px;
+  margin: 4px 0;
+}
+
+/* Tactical stats indicators */
+.coach-stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--paper-soft);
+}
+
+.stat-info .stat-num {
+  font-family: Anton, sans-serif;
+  color: var(--active-accent, var(--green));
+}
+
+.stat-bar-bg {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--active-accent, var(--green));
+  box-shadow: 0 0 8px var(--active-accent, var(--green));
+  border-radius: 2px;
+  transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Tactical pill tags */
+.coach-tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.coach-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 4px 10px;
+  border-radius: 3px;
+  color: var(--muted);
+  transition: all 0.3s ease;
+}
+
+.coach-tag:hover {
+  border-color: var(--active-accent, var(--green));
+  color: var(--paper);
+  box-shadow: 0 0 8px var(--active-accent, var(--green));
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* CTA buttons inside active profiles */
+.coach-cta-btn {
+  font-family: Anton, sans-serif;
+  width: 100%;
+  margin-top: 10px;
+  border-color: var(--active-accent, var(--green)) !important;
+  color: var(--paper) !important;
+}
+
+.coach-cta-btn:hover {
+  background: var(--active-accent, var(--green)) !important;
+  box-shadow: 0 0 15px var(--active-accent, var(--green)) !important;
+  color: var(--ink) !important;
+}
+
+/* Dossier selector sidebar styles */
+.coach-selector-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+.selector-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 6px;
-  background:
-    linear-gradient(160deg, rgba(139, 210, 63, 0.72), rgba(230, 60, 53, 0.38)),
-    linear-gradient(45deg, #202720, #090c09);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
 }
 
-.coach-one {
-  background:
-    linear-gradient(160deg, rgba(139, 210, 63, 0.72), rgba(8, 11, 9, 0.1)),
-    url("assets/monster-gym-hero.png") center / cover;
+.selector-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--coach-theme, var(--green));
+  transition: width 0.3s ease;
 }
 
-.coach-two {
-  background:
-    linear-gradient(160deg, rgba(230, 60, 53, 0.62), rgba(8, 11, 9, 0.22)),
-    url("assets/monster-gym-hero.png") right center / cover;
+.selector-card:hover {
+  background: rgba(255, 255, 255, 0.035);
+  transform: translateX(6px);
 }
 
-.coach-three {
-  background:
-    linear-gradient(160deg, rgba(232, 201, 74, 0.52), rgba(8, 11, 9, 0.32)),
-    url("assets/monster-gym-hero.png") center bottom / cover;
+.selector-card.active {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--coach-theme, var(--green));
+}
+
+.selector-card.active::after {
+  width: 100%;
+}
+
+.selector-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #090b09;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  transition: border-color 0.3s ease;
+}
+
+.selector-card:hover .selector-thumb,
+.selector-card.active .selector-thumb {
+  border-color: var(--coach-theme, var(--green));
+}
+
+.selector-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+}
+
+.selector-info {
+  flex-grow: 1;
+}
+
+.selector-info h4 {
+  font-family: Anton, sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+  margin: 0 0 3px 0;
+  text-transform: uppercase;
+  color: var(--paper-soft);
+}
+
+.selector-card.active .selector-info h4 {
+  color: var(--paper);
+}
+
+.selector-info .selector-role {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.selector-card.active .selector-info .selector-role {
+  color: var(--coach-theme, var(--green));
+}
+
+/* Philosophy Strip Styles */
+.philosophy-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 20px;
+  background: rgba(10, 13, 11, 0.6);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin-top: 64px;
+  padding: 30px clamp(20px, 4vw, 50px);
+  position: relative;
+  z-index: 1;
+}
+
+.philosophy-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  flex: 1;
+}
+
+.philosophy-num {
+  font-family: Anton, sans-serif;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--green);
+  opacity: 0.85;
+}
+
+.philosophy-item h4 {
+  font-family: Anton, sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0 0 6px 0;
+  color: var(--paper);
+}
+
+.philosophy-item p {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--muted);
+  margin: 0;
+}
+
+.philosophy-divider {
+  width: 1px;
+  background: var(--line);
+  align-self: stretch;
+}
+
+/* --- Coaches Section Responsive Media Queries --- */
+@media (max-width: 980px) {
+  .fight-room-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .coach-selector-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+  
+  .selector-card {
+    flex: 1 1 calc(50% - 16px);
+    max-width: calc(50% - 8px);
+    box-sizing: border-box;
+  }
+  
+  .selector-card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .philosophy-strip {
+    flex-direction: column;
+    gap: 30px;
+    padding: 35px 30px;
+  }
+  
+  .philosophy-divider {
+    width: 100%;
+    height: 1px;
+  }
+}
+
+@media (max-width: 768px) {
+  .active-coach-panel {
+    grid-template-columns: 1fr;
+  }
+  
+  .coach-portrait-wrap {
+    min-height: 360px;
+    max-height: 440px;
+  }
+  
+  .coach-details-wrap {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 640px) {
+  .coach-selector-list {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 12px;
+    gap: 12px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+  }
+  
+  .coach-selector-list::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome/Safari */
+  }
+  
+  .selector-card {
+    flex: 0 0 240px;
+    max-width: 240px;
+    padding: 12px 14px;
+    gap: 12px;
+  }
+  
+  .selector-thumb {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .selector-info h4 {
+    font-size: 1rem;
+  }
+  
+  .selector-info .selector-role {
+    font-size: 0.68rem;
+  }
 }
 
 .membership {
