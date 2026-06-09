@@ -1970,3 +1970,94 @@ body.in-program-view #program-view {
     padding: 26px;
   }
 }
+
+/* --- Custom Scrollbar Styling --- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border: 2px solid var(--ink);
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent, var(--green));
+}
+
+/* For Firefox compatibility */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) var(--ink);
+}
+
+/* --- Language Switcher Styling --- */
+.lang-switcher,
+.program-lang-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: Anton, Impact, sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  margin-right: 12px;
+}
+
+.program-lang-switcher {
+  position: absolute;
+  top: 30px;
+  right: clamp(20px, 8vw, 132px);
+  z-index: 10;
+  margin-right: 0;
+  background: rgba(12, 16, 13, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+.lang-btn {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: color 0.3s ease;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.lang-btn.active,
+.lang-btn:hover {
+  color: var(--accent, var(--green));
+}
+
+.lang-divider {
+  color: rgba(255, 255, 255, 0.15);
+  user-select: none;
+}
+
+@media (max-width: 920px) {
+  .lang-switcher {
+    margin-right: 0;
+    padding: 3px 8px;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .program-lang-switcher {
+    top: 20px;
+    right: 18px;
+    padding: 3px 8px;
+    font-size: 0.75rem;
+  }
+}
