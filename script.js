@@ -1749,11 +1749,11 @@ const toggleChat = (forceState) => {
   }
 };
 
-const getMockResponse = (query, lang) => {
+const getMockResponse = (query, lang, debugPrefix = "") => {
   const q = query.toLowerCase();
   
   if (lang === "fr") {
-    let response = "**[SIMULATION LOCALE]**\n\n";
+    let response = debugPrefix;
     if (q.includes("essai") || q.includes("réserver") || q.includes("reserver") || q.includes("gratuit") || q.includes("trial") || q.includes("book")) {
       response += "Pour réserver votre **cours d'essai gratuit**, faites défiler vers le bas jusqu'à la section **Réservation** au bas de la page. Remplissez le formulaire avec votre nom, e-mail et le programme souhaité. Notre équipe vous contactera sous 24h.";
     } else if (q.includes("planning") || q.includes("cours") || q.includes("horaire") || q.includes("schedule")) {
@@ -1767,7 +1767,7 @@ const getMockResponse = (query, lang) => {
     }
     return response;
   } else {
-    let response = "**[LOCAL SIMULATION]**\n\n";
+    let response = debugPrefix;
     if (q.includes("trial") || q.includes("book") || q.includes("free") || q.includes("reserve")) {
       response += "To book your **free trial spot**, scroll down to the **Book a Trial** section at the bottom of this page. Complete the form with your name, email, and preferred program. We will confirm your session shortly!";
     } else if (q.includes("schedule") || q.includes("hour") || q.includes("time") || q.includes("class")) {
@@ -1853,19 +1853,23 @@ const handleSend = async (customText) => {
                     
     const is404 = error.message.includes("status 404") || (response && response.status === 404);
                     
+    // Always fall back to mock responses for ANY failure to provide a bulletproof UX
+    await new Promise(resolve => setTimeout(resolve, 850));
+    hideTypingIndicator();
+    
+    let debugPrefix = "";
     if (isLocal || is404) {
-      // Simulate typing delay
-      await new Promise(resolve => setTimeout(resolve, 850));
-      hideTypingIndicator();
-      
-      const mockReply = getMockResponse(text, currentLang);
-      chatHistory.push({ role: "assistant", content: mockReply });
-      appendMessageToDOM("assistant", mockReply);
+      debugPrefix = currentLang === "fr" ? "**[SIMULATION LOCALE]**\n\n" : "**[LOCAL SIMULATION]**\n\n";
     } else {
-      hideTypingIndicator();
-      const errMsg = TRANSLATIONS[currentLang]["chat.err_send_failed"] || "Error sending message.";
-      appendMessageToDOM("assistant", errMsg);
+      // Deployed endpoint failed (e.g. 500 error due to missing API key in Netlify/Vercel settings)
+      debugPrefix = currentLang === "fr" 
+        ? "**[SIMULATION DE DÉMO]**\n*(Note : Connexion au modèle Mistral impossible. Veuillez configurer MISTRAL_API_KEY dans vos paramètres Netlify/Vercel.)*\n\n" 
+        : "**[DEMO SIMULATION]**\n*(Note: Secure Mistral connection failed. Make sure MISTRAL_API_KEY is configured in your Netlify/Vercel settings.)*\n\n";
     }
+    
+    const mockReply = getMockResponse(text, currentLang, debugPrefix);
+    chatHistory.push({ role: "assistant", content: mockReply });
+    appendMessageToDOM("assistant", mockReply);
   } finally {
     chatbotSend.disabled = false;
     isGeneratingResponse = false;
