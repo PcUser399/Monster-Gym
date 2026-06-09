@@ -1808,13 +1808,14 @@ const handleSend = async (customText) => {
 
   showTypingIndicator();
 
+  let response;
   try {
     const messagesToSend = [
       { role: "system", content: SYSTEM_PROMPT },
       ...chatHistory
     ];
 
-    const response = await fetch("/api/chat", {
+    response = await fetch("/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -1823,7 +1824,7 @@ const handleSend = async (customText) => {
     });
 
     if (!response.ok) {
-      throw new Error("Gateway error");
+      throw new Error(`Gateway returned status ${response.status}`);
     }
 
     const data = await response.json();
@@ -1839,12 +1840,20 @@ const handleSend = async (customText) => {
   } catch (error) {
     console.error("Chatbot error:", error);
     
-    // Check if we are running locally (localhost, 127.0.0.1, or file://)
-    const isLocal = window.location.hostname === "localhost" || 
-                    window.location.hostname === "127.0.0.1" || 
+    // Check if we are running locally (localhost, LAN IPs like 192.168.* / 10.*, .local suffix, or file://)
+    const hostname = window.location.hostname;
+    const isLocal = !hostname || 
+                    hostname === "localhost" || 
+                    hostname === "127.0.0.1" || 
+                    hostname.startsWith("192.168.") || 
+                    hostname.startsWith("10.") || 
+                    hostname.startsWith("172.") || 
+                    hostname.endsWith(".local") || 
                     window.location.protocol === "file:";
                     
-    if (isLocal) {
+    const is404 = error.message.includes("status 404") || (response && response.status === 404);
+                    
+    if (isLocal || is404) {
       // Simulate typing delay
       await new Promise(resolve => setTimeout(resolve, 850));
       hideTypingIndicator();
