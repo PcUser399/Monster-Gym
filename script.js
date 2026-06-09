@@ -229,7 +229,12 @@ const TRANSLATIONS = {
     "trial.label_program": "Program",
     "card.title_kids": "Kids Martial Arts",
     "trial.submit": "Request Trial",
-    "footer.tagline": "Confidence. Energy. Discipline."
+    "footer.tagline": "Confidence. Energy. Discipline.",
+    "chat.status": "SYSTEM // ACTIVE",
+    "chat.header_title": "MONSTER ASSISTANT",
+    "chat.placeholder": "Ask about training...",
+    "chat.greeting": "Welcome to **Monster Gym**. I am your tactical training assistant. How can I help you build discipline today?",
+    "chat.err_send_failed": "Failed to transmit message. Try again."
   },
   fr: {
     "nav.programs": "Programmes",
@@ -343,7 +348,12 @@ const TRANSLATIONS = {
     "trial.label_program": "Programme",
     "card.title_kids": "Arts Martiaux Enfants",
     "trial.submit": "Demander mon essai",
-    "footer.tagline": "Confiance. Énergie. Discipline."
+    "footer.tagline": "Confiance. Énergie. Discipline.",
+    "chat.status": "SYSTÈME // ACTIF",
+    "chat.header_title": "ASSISTANT MONSTER",
+    "chat.placeholder": "Posez une question...",
+    "chat.greeting": "Bienvenue chez **Monster Gym**. Je suis votre assistant tactique d'entraînement. Comment puis-je vous aider à forger votre discipline aujourd'hui ?",
+    "chat.err_send_failed": "Échec de la transmission du message. Veuillez réessayer."
   }
 };
 
@@ -700,6 +710,11 @@ const translatePage = (lang) => {
 
   // Re-render coaches list
   renderCoaches();
+
+  // Update chatbot translations if defined
+  if (typeof updateChatbotLanguage === "function") {
+    updateChatbotLanguage(lang);
+  }
 };
 
 const setLanguage = (lang) => {
@@ -1548,6 +1563,293 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Initialize AI Chatbot
+  if (typeof initChatbot === "function") {
+    initChatbot();
+  }
+
   handleHashRoute();
 });
+
+// ==========================================================================
+// TACTICAL AI CHATBOT INTERACTIVITY AND LOGIC
+// ==========================================================================
+
+const SYSTEM_PROMPT = `You are the Monster Gym AI Assistant, a premium, tactical, and motivating training coordinator for Monster Gym.
+Your tone is sharp, elite, disciplined, respectful, and professional—reflecting the brand value "Serious training without the ego".
+You help users with their training questions, gym details, and class inquiries.
+Monster Gym offers 4 core programs:
+1. Boxing (led by Maya Torres) - focuses on fundamentals, footwork, and composure under pressure.
+2. Kickboxing (led by Lina Tremblay) - focuses on striking flow, combination variety, and structural power.
+3. Grappling (led by Karim Bensaid) - focuses on positioning, submission defence, and transitions.
+4. Strength Training (led by Youssef Al-Fayed) - focuses on explosive power, compound lifts, and durability.
+
+The gym rules are:
+- Leave your ego at the door.
+- Respect the room (no showing off, no shortcuts).
+- Coached rounds first (technique and correction every session).
+- Train hard, train smart.
+
+Guide users to book a trial spot (using the "Book a Trial" section on the page), view the schedule, or learn more about the classes.
+Respond concisely. Match the language of the user (English or French). Keep your answers formatting clean with bold text and lists where appropriate.`;
+
+let chatHistory = [];
+let isGeneratingResponse = false;
+let typingIndicatorEl = null;
+
+const formatMarkdown = (text) => {
+  let escaped = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  escaped = escaped.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+  const blocks = escaped.split(/\n\n+/);
+  const formattedBlocks = blocks.map(block => {
+    if (block.trim().startsWith("- ") || block.trim().startsWith("* ")) {
+      const items = block.split(/\n/).map(line => {
+        const content = line.trim().replace(/^[-*]\s+/, "");
+        return content ? `<li>${content}</li>` : "";
+      }).filter(Boolean).join("");
+      return `<ul>${items}</ul>`;
+    }
+    if (/^\d+\.\s+/.test(block.trim())) {
+      const items = block.split(/\n/).map(line => {
+        const content = line.trim().replace(/^\d+\.\s+/, "");
+        return content ? `<li>${content}</li>` : "";
+      }).filter(Boolean).join("");
+      return `<ol>${items}</ol>`;
+    }
+    
+    const lines = block.split(/\n/).join("<br>");
+    return `<p>${lines}</p>`;
+  });
+
+  return formattedBlocks.join("");
+};
+
+const appendMessageToDOM = (role, content, animate = true) => {
+  const chatbotHistory = document.getElementById("chatbot-history");
+  if (!chatbotHistory) return null;
+
+  const msgEl = document.createElement("div");
+  msgEl.classList.add("chat-msg", role === "user" ? "msg-user" : "msg-assistant");
+  
+  if (role === "assistant") {
+    msgEl.innerHTML = formatMarkdown(content);
+  } else {
+    msgEl.textContent = content;
+  }
+  
+  if (!animate) {
+    msgEl.style.animation = "none";
+  }
+  
+  chatbotHistory.appendChild(msgEl);
+  chatbotHistory.scrollTop = chatbotHistory.scrollHeight;
+  return msgEl;
+};
+
+const showTypingIndicator = () => {
+  const chatbotHistory = document.getElementById("chatbot-history");
+  if (!chatbotHistory || typingIndicatorEl) return;
+  
+  typingIndicatorEl = document.createElement("div");
+  typingIndicatorEl.classList.add("chat-msg", "msg-assistant");
+  typingIndicatorEl.innerHTML = `
+    <div class="typing-indicator" aria-label="Assistant is typing">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>
+  `;
+  chatbotHistory.appendChild(typingIndicatorEl);
+  chatbotHistory.scrollTop = chatbotHistory.scrollHeight;
+};
+
+const hideTypingIndicator = () => {
+  if (typingIndicatorEl) {
+    typingIndicatorEl.remove();
+    typingIndicatorEl = null;
+  }
+};
+
+const getChatSuggestions = (lang) => {
+  if (lang === "fr") {
+    return [
+      { text: "Réserver un essai", prompt: "Comment puis-je réserver un essai gratuit ?" },
+      { text: "Planning des cours", prompt: "Quel est le planning des cours cette semaine ?" },
+      { text: "Programmes", prompt: "Quels sont les différents programmes proposés ?" },
+      { text: "Rencontrer les coachs", prompt: "Qui sont les entraîneurs de Monster Gym ?" }
+    ];
+  }
+  return [
+    { text: "Book a Free Trial", prompt: "How do I book a free trial spot?" },
+    { text: "Class Schedule", prompt: "What is the weekly class schedule?" },
+    { text: "Explore Programs", prompt: "Tell me about the training programs." },
+    { text: "Meet the Coaches", prompt: "Who are the coaches at Monster Gym?" }
+  ];
+};
+
+const renderSuggestions = () => {
+  const chatbotSuggestions = document.getElementById("chatbot-suggestions");
+  if (!chatbotSuggestions) return;
+
+  chatbotSuggestions.innerHTML = "";
+  const suggestions = getChatSuggestions(currentLang);
+  
+  suggestions.forEach(item => {
+    const btn = document.createElement("button");
+    btn.classList.add("suggestion-chip");
+    btn.textContent = item.text;
+    btn.addEventListener("click", () => handleSend(item.prompt));
+    chatbotSuggestions.appendChild(btn);
+  });
+};
+
+const renderChatHistory = () => {
+  const chatbotHistory = document.getElementById("chatbot-history");
+  if (!chatbotHistory) return;
+
+  chatbotHistory.innerHTML = "";
+  chatHistory.forEach(msg => {
+    appendMessageToDOM(msg.role, msg.content, false);
+  });
+  if (chatHistory.length === 0) {
+    const greeting = TRANSLATIONS[currentLang]["chat.greeting"];
+    appendMessageToDOM("assistant", greeting, false);
+  }
+  chatbotHistory.scrollTop = chatbotHistory.scrollHeight;
+};
+
+const toggleChat = (forceState) => {
+  const chatbotWindow = document.getElementById("chatbot-window");
+  const chatbotToggle = document.getElementById("chatbot-toggle");
+  const chatbotInput = document.getElementById("chatbot-input");
+  
+  if (!chatbotWindow || !chatbotToggle) return;
+
+  const nextOpen = typeof forceState === "boolean" ? forceState : chatbotWindow.classList.contains("chatbot-hidden");
+  
+  if (nextOpen) {
+    chatbotWindow.classList.remove("chatbot-hidden");
+    chatbotToggle.setAttribute("aria-expanded", "true");
+    chatbotToggle.querySelector(".chat-icon").style.display = "none";
+    chatbotToggle.querySelector(".close-icon").style.display = "block";
+    
+    if (window.innerWidth > 768 && chatbotInput) {
+      chatbotInput.focus();
+    }
+  } else {
+    chatbotWindow.classList.add("chatbot-hidden");
+    chatbotToggle.setAttribute("aria-expanded", "false");
+    chatbotToggle.querySelector(".chat-icon").style.display = "block";
+    chatbotToggle.querySelector(".close-icon").style.display = "none";
+  }
+};
+
+const handleSend = async (customText) => {
+  const chatbotInput = document.getElementById("chatbot-input");
+  const chatbotSend = document.getElementById("chatbot-send");
+  const chatbotSuggestions = document.getElementById("chatbot-suggestions");
+  
+  if (!chatbotInput || !chatbotSend) return;
+
+  const text = (customText || chatbotInput.value).trim();
+  if (!text || isGeneratingResponse) return;
+
+  // Hide suggestion chips after the user initiates contact
+  if (chatbotSuggestions) {
+    chatbotSuggestions.style.display = "none";
+  }
+
+  chatbotInput.value = "";
+  chatbotSend.disabled = true;
+  isGeneratingResponse = true;
+
+  // Add User Message
+  chatHistory.push({ role: "user", content: text });
+  appendMessageToDOM("user", text);
+
+  showTypingIndicator();
+
+  try {
+    const messagesToSend = [
+      { role: "system", content: SYSTEM_PROMPT },
+      ...chatHistory
+    ];
+
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ messages: messagesToSend })
+    });
+
+    if (!response.ok) {
+      throw new Error("Gateway error");
+    }
+
+    const data = await response.json();
+    hideTypingIndicator();
+
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      const assistantMsg = data.choices[0].message;
+      chatHistory.push({ role: "assistant", content: assistantMsg.content });
+      appendMessageToDOM("assistant", assistantMsg.content);
+    } else {
+      throw new Error("Invalid format");
+    }
+  } catch (error) {
+    console.error("Chatbot error:", error);
+    hideTypingIndicator();
+    const errMsg = TRANSLATIONS[currentLang]["chat.err_send_failed"] || "Error sending message.";
+    appendMessageToDOM("assistant", errMsg);
+  } finally {
+    chatbotSend.disabled = false;
+    isGeneratingResponse = false;
+    if (chatbotInput && window.innerWidth > 768) {
+      chatbotInput.focus();
+    }
+  }
+};
+
+const updateChatbotLanguage = (lang) => {
+  const chatbotSuggestions = document.getElementById("chatbot-suggestions");
+  if (chatHistory.length <= 1) {
+    chatHistory = [{ role: "assistant", content: TRANSLATIONS[lang]["chat.greeting"] }];
+    if (chatbotSuggestions) {
+      chatbotSuggestions.style.display = "flex";
+    }
+    renderChatHistory();
+  }
+  renderSuggestions();
+};
+
+const initChatbot = () => {
+  const chatbotToggle = document.getElementById("chatbot-toggle");
+  const chatbotCloseBtn = document.getElementById("chatbot-close-btn");
+  const chatbotInput = document.getElementById("chatbot-input");
+  const chatbotSend = document.getElementById("chatbot-send");
+
+  if (!chatbotToggle || !chatbotCloseBtn || !chatbotInput || !chatbotSend) return;
+
+  chatHistory = [{ role: "assistant", content: TRANSLATIONS[currentLang]["chat.greeting"] }];
+  renderChatHistory();
+  renderSuggestions();
+
+  // Wire UI event listeners
+  chatbotToggle.addEventListener("click", () => toggleChat());
+  chatbotCloseBtn.addEventListener("click", () => toggleChat(false));
+
+  chatbotInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  });
+
+  chatbotSend.addEventListener("click", () => handleSend());
+};
 

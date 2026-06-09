@@ -454,6 +454,54 @@
       </div>
     </div>
 
+    <!-- Chatbot Floating UI -->
+    <div id="chatbot-container">
+      <!-- Toggle Bubble -->
+      <button id="chatbot-toggle" aria-label="Open chat assistant" aria-haspopup="dialog" aria-expanded="false">
+        <svg class="chat-icon" viewBox="0 0 24 24" width="24" height="24">
+          <path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+        </svg>
+        <svg class="close-icon" viewBox="0 0 24 24" width="24" height="24" style="display: none;">
+          <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+
+      <!-- Chat Window Overlay -->
+      <div id="chatbot-window" class="chatbot-hidden" role="dialog" aria-modal="true" aria-label="Monster Gym AI Assistant">
+        <!-- Chat Header -->
+        <header class="chatbot-header">
+          <div class="chatbot-status-row">
+            <span class="status-indicator"></span>
+            <span class="status-text" data-i18n="chat.status">SYSTEM // ACTIVE</span>
+          </div>
+          <div class="chatbot-title-row">
+            <h3 data-i18n="chat.header_title">MONSTER ASSISTANT</h3>
+            <button id="chatbot-close-btn" aria-label="Close chat assistant">&times;</button>
+          </div>
+        </header>
+
+        <!-- Message History -->
+        <div id="chatbot-history" role="log" aria-live="polite">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Prompt Suggestions -->
+        <div class="chatbot-suggestions" id="chatbot-suggestions">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Input Field footer -->
+        <footer class="chatbot-footer">
+          <input type="text" id="chatbot-input" placeholder="Ask about training..." data-i18n-placeholder="chat.placeholder" autocomplete="off" />
+          <button id="chatbot-send" aria-label="Send message">
+            <svg viewBox="0 0 24 24" width="20" height="20">
+              <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+          </button>
+        </footer>
+      </div>
+    </div>
+
     <script src="script.js"></script>
   </body>
 </html>
