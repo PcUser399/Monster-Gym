@@ -148,9 +148,26 @@ const TRANSLATIONS = {
     "card.tag_strength": "FORCE",
     "card.title_strength": "Strength Training",
     "card.desc_strength": "Get strong. Stay strong. Perform better.",
-    "about.kicker": "Team Monster",
-    "about.title": "Serious training without the ego.",
+    "about.kicker": "TEAM MONSTER ///",
+    "about.title_part1": "Serious training",
+    "about.title_part2": "without",
+    "about.title_part3": "the ego.",
     "about.copy": "Monster Gym pairs coach-led technique with conditioning that actually carries over to the mat, ring, and daily life. Show up consistent, leave stronger.",
+    "about.gate_top": "EGO STAYS OUTSIDE",
+    "about.gate_bottom": "WORK ENTERS HERE",
+    "about.panel_kicker": "ACCESS: TRAINING FLOOR //",
+    "about.panel_title": "THE ROOM STANDARD",
+    "about.panel_status": "STATUS: ACTIVE",
+    "about.p1_title": "RESPECT THE ROOM",
+    "about.p1_desc": "No showing off. No shortcuts. No wasted rounds.",
+    "about.p2_title": "COACHING FIRST",
+    "about.p2_desc": "Technique, correction, and feedback every session.",
+    "about.p3_title": "PRESSURE WITH PURPOSE",
+    "about.p3_desc": "Train hard, but train smart.",
+    "about.p4_title": "LEAVE STRONGER",
+    "about.p4_desc": "Walk in focused. Walk out better.",
+    "about.active_indicator": "ACTIVE",
+    "about.panel_footer_label": "NO EGO SYSTEM / 04 PRINCIPLES",
     "features.kicker": "What You Get",
     "features.title": "Technique, sweat, recovery, repeat.",
     "features.c1_title": "Coach-led rounds",
@@ -245,9 +262,26 @@ const TRANSLATIONS = {
     "card.tag_strength": "FORCE",
     "card.title_strength": "Musculation & Force",
     "card.desc_strength": "Devenez fort. Restez fort. Soyez plus performant.",
-    "about.kicker": "L'Équipe Monster",
-    "about.title": "Un entraînement sérieux sans ego.",
+    "about.kicker": "L'EQUIPE MONSTER ///",
+    "about.title_part1": "Entraînement sérieux",
+    "about.title_part2": "sans",
+    "about.title_part3": "l'ego.",
     "about.copy": "Monster Gym associe des techniques guidées par des coachs à un conditionnement physique directement transférable sur le tatami, le ring et au quotidien. Soyez régulier, devenez plus fort.",
+    "about.gate_top": "L'EGO RESTE DEHORS",
+    "about.gate_bottom": "LE TRAVAIL ENTRE ICI",
+    "about.panel_kicker": "ACCÈS : SURFACE D'ENTRAÎNEMENT //",
+    "about.panel_title": "LE STANDARD DE LA SALLE",
+    "about.panel_status": "STATUT : ACTIF",
+    "about.p1_title": "RESPECTER LA SALLE",
+    "about.p1_desc": "Pas de frime. Pas de raccourcis. Pas de rounds gâchés.",
+    "about.p2_title": "LE COACHING D'ABORD",
+    "about.p2_desc": "Technique, correction et retours à chaque séance.",
+    "about.p3_title": "L'INTENSITÉ AVEC OBJECTIF",
+    "about.p3_desc": "S'entraîner dur, mais s'entraîner intelligemment.",
+    "about.p4_title": "REPARTIR PLUS FORT",
+    "about.p4_desc": "Entrer concentré. Repartir meilleur.",
+    "about.active_indicator": "ACTIF",
+    "about.panel_footer_label": "SYSTÈME SANS EGO / 04 PRINCIPLES",
     "features.kicker": "Ce que vous obtenez",
     "features.title": "Technique, sueur, récupération, répétition.",
     "features.c1_title": "Rounds encadrés par un coach",
@@ -1500,6 +1534,18 @@ window.addEventListener("DOMContentLoaded", () => {
   const decorText = document.querySelector(".coaches-bg-decorations .decor-giant-text");
   if (decorText && initialCoach) {
     decorText.textContent = initialCoach.disciplineCode.toUpperCase();
+  }
+
+  // Wire Room Standard Panel Mouse Glow Effect
+  const standardPanel = document.querySelector(".room-standard-panel");
+  if (standardPanel) {
+    standardPanel.addEventListener("mousemove", e => {
+      const rect = standardPanel.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      standardPanel.style.setProperty("--mouse-x", `${x}px`);
+      standardPanel.style.setProperty("--mouse-y", `${y}px`);
+    });
   }
 
   handleHashRoute();
